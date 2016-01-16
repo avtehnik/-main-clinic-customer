@@ -33,7 +33,9 @@ class UserDoctor extends User implements \JsonSerializable
             "gender"      => $this->getGender(),
             "address"     => $this->getAddress(),
             "userType"    => $this->getUserType(),
-            "description" => $this->getDescription()
+            "description" => $this->getDescription(),
+            'poto'=>$this->getPhoto()
+
         ];
     }
 
