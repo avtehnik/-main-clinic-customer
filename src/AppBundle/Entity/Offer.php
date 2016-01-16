@@ -188,8 +188,7 @@ class Offer implements \JsonSerializable
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Service", mappedBy="offer", cascade={"remove","persist"})
-     * @ORM\OrderBy({"id" = "ASC"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Service")
      */
     private $services;
 
@@ -296,6 +295,7 @@ class Offer implements \JsonSerializable
 
         $duration = 0;
         $price    = 0;
+        $services = [];
 
         /**
          * @var Service $service
@@ -304,6 +304,7 @@ class Offer implements \JsonSerializable
         foreach ($this->getServices() as $service) {
             $duration += $service->getDuration();
             $price += $service->getPrice();
+            $services[] = $service->getId();
         }
 
         return [
@@ -314,7 +315,7 @@ class Offer implements \JsonSerializable
             "updated"        => $this->getUpdated()->format(DATE_ATOM),
             "created"        => $this->getCreated()->format(DATE_ATOM),
             "status"         => $this->getStatus(),
-            "services"       => $this->getServices()->getValues(),
+            "services"       => $services,
             "estimatedPrice" => $price,
             "estimatedTime"  => gmdate("H:i:s", $duration),
             "date"=> $this->getDate()->format(DATE_ATOM)

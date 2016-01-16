@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Offer;
 use AppBundle\Entity\UserClient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -40,7 +41,56 @@ class ClientApiController extends Controller
 
         $em       = $this->getDoctrine()->getManager();
         $services = $em->getRepository('AppBundle:Service')->findAll();
+
         return new JsonResponse($services);
     }
+
+
+    /**
+     * @Route("/{client}/updateOffer")
+     */
+    public function newOfferAction(Request $request, UserClient $client)
+    {
+        $id    = $request->request->get('id');
+        $em    = $this->getDoctrine()->getManager();
+        $offer = $em->getRepository('AppBundle:Offer')->find($id);
+
+        if ( ! $offer) {
+            $offer = new Offer();
+            $offer->setCreated(new \DateTime());
+            $offer->setUpdated(new \DateTime());
+        }
+
+        $offer->setDoctor($em->getRepository('AppBundle:UserDoctor')->find($request->request->get('doctor')));
+        $offer->setClient($client);
+        $offer->setDate(new \DateTime($request->request->get('date')));
+        $offer->setStatus($request->request->get('status'));
+        $offer->setComment($request->request->get('comment'));
+
+
+        $services = json_decode($request->request->get('services'), true);
+
+
+        foreach ($offer->getServices() as $service) {
+            $offer->removeService($service);
+        }
+
+        if (is_array($services)) {
+
+            foreach ($services as $serviceId) {
+
+                $service = $em->getRepository('AppBundle:Service')->find($serviceId);
+                $offer->addService($service);
+
+            }
+
+        }
+
+        $em->persist($offer);
+        $em->flush($offer);
+
+        return new JsonResponse($offer);
+    }
+
 
 }
