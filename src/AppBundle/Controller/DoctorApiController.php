@@ -41,6 +41,28 @@ class DoctorApiController extends Controller
     }
 
     /**
+     * @Route("/users/doctors")
+     */
+    public function usersDoctorsAction(Request $request)
+    {
+
+        $em       = $this->getDoctrine()->getManager();
+        $services = $em->getRepository('AppBundle:UserDoctor')->findAll();
+        return new JsonResponse($services);
+    }
+
+    /**
+     * @Route("/users/clients")
+     */
+    public function usersClientsAction(Request $request)
+    {
+
+        $em       = $this->getDoctrine()->getManager();
+        $services = $em->getRepository('AppBundle:UserClient')->findAll();
+        return new JsonResponse($services);
+    }
+
+    /**
      * @Route("/{doctor}/feedbacks")
      */
     public function feedbacksAction(Request $request, UserDoctor $doctor)

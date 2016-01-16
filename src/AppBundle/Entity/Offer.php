@@ -17,6 +17,7 @@ class Offer implements \JsonSerializable
     const STATUS_WAITING = 'waiting';
     const STATUS_ACCEPTED = 'accepted';
     const STATUS_FINISH = 'finish';
+    const STATUS_REJECTED = 'rejected';
 
     /**
      * @var int
