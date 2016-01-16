@@ -32,4 +32,15 @@ class ClientApiController extends Controller
         return new JsonResponse($client->getOffers()->getValues());
     }
 
+    /**
+     * @Route("/services")
+     */
+    public function servicesAction(Request $request)
+    {
+
+        $em       = $this->getDoctrine()->getManager();
+        $services = $em->getRepository('AppBundle:Service')->findAll();
+        return new JsonResponse($services);
+    }
+
 }

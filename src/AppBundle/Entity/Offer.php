@@ -48,6 +48,14 @@ class Offer implements \JsonSerializable
      */
     private $created;
 
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
     /**
      * @var string
      *
@@ -285,14 +293,55 @@ class Offer implements \JsonSerializable
      */
     function jsonSerialize()
     {
+
+        $duration = 0;
+        $price    = 0;
+
+        /**
+         * @var Service $service
+         */
+
+        foreach ($this->getServices() as $service) {
+            $duration += $service->getDuration();
+            $price += $service->getPrice();
+        }
+
         return [
-            "id"      => $this->getId(),
-            "doctor"  => $this->getDoctor()->getId(),
-            "client"  => $this->getClient()->getId(),
-            "comment" => $this->getComment(),
-            "updated" => $this->getUpdated()->format(DATE_ATOM),
-            "created" => $this->getCreated()->format(DATE_ATOM),
-            "status"  => $this->getStatus(),
+            "id"             => $this->getId(),
+            "doctor"         => $this->getDoctor()->getId(),
+            "client"         => $this->getClient()->getId(),
+            "comment"        => $this->getComment(),
+            "updated"        => $this->getUpdated()->format(DATE_ATOM),
+            "created"        => $this->getCreated()->format(DATE_ATOM),
+            "status"         => $this->getStatus(),
+            "services"       => $this->getServices()->getValues(),
+            "estimatedPrice" => $price,
+            "estimatedTime"  => gmdate("H:i:s", $duration),
+            "date"=> $this->getDate()->format(DATE_ATOM)
         ];
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Offer
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }

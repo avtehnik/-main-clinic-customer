@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="service")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceRepository")
  */
-class Service
+class Service implements \JsonSerializable
 {
     /**
      * @var int
@@ -31,7 +31,7 @@ class Service
     /**
      * @var string
      *
-     * @ORM\Column(name="price", type="string", length=255)
+     * @ORM\Column(name="price", type="float", length=255)
      */
     private $price;
 
@@ -155,5 +155,56 @@ class Service
     public function getOffer()
     {
         return $this->offer;
+    }
+
+
+    public function getDurationText()
+    {
+        return gmdate("H:i:s", $this->getDuration());
+    }
+
+
+    public function jsonSerialize()
+    {
+
+        return [
+            'id'           => $this->getId(),
+            'title'        => $this->getTitle(),
+            'price'        => $this->getPrice(),
+            'durationText' => $this->getDurationText(),
+            'duration'     => $this->getDuration()
+        ];
+
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->offer = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add offer
+     *
+     * @param \AppBundle\Entity\Offer $offer
+     *
+     * @return Service
+     */
+    public function addOffer(\AppBundle\Entity\Offer $offer)
+    {
+        $this->offer[] = $offer;
+
+        return $this;
+    }
+
+    /**
+     * Remove offer
+     *
+     * @param \AppBundle\Entity\Offer $offer
+     */
+    public function removeOffer(\AppBundle\Entity\Offer $offer)
+    {
+        $this->offer->removeElement($offer);
     }
 }
