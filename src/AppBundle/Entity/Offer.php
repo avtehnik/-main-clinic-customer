@@ -311,6 +311,8 @@ class Offer implements \JsonSerializable
             "id"             => $this->getId(),
             "doctor"         => $this->getDoctor()->getId(),
             "client"         => $this->getClient()->getId(),
+            "doctorName"         => $this->getDoctor()->getFullName(),
+            "clientName"         => $this->getClient()->getFullName(),
             "comment"        => $this->getComment(),
             "updated"        => $this->getUpdated()->format(DATE_ATOM),
             "created"        => $this->getCreated()->format(DATE_ATOM),
