@@ -17,11 +17,15 @@ use Symfony\Component\HttpFoundation\Request;
 class DoctorApiController extends Controller
 {
     /**
-     * @Route("/{doctor}/offers")
+     * @Route("/offers")
      */
     public function offersAction(Request $request, UserDoctor $doctor)
     {
-        return new JsonResponse($doctor->getOffers()->getValues());
+
+        $em       = $this->getDoctrine()->getManager();
+        $offers = $em->getRepository('AppBundle:Offer')->findAll();
+
+        return new JsonResponse($offers);
     }
 
     /**
