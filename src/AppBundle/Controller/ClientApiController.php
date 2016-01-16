@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/api/client", name="homepage")
+ * @Route("/api/client")
  */
 class ClientApiController extends Controller
 {
