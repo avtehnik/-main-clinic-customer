@@ -317,7 +317,7 @@ class Offer implements \JsonSerializable
             "updated"        => $this->getUpdated()->format(DATE_ATOM),
             "created"        => $this->getCreated()->format(DATE_ATOM),
             "status"         => $this->getStatus(),
-            "services"       => $services,
+            "services"       => $this->getServices()->getValues(),
             "estimatedPrice" => $price,
             "estimatedTime"  => gmdate("H:i:s", $duration),
             "date"=> $this->getDate()->format(DATE_ATOM)
