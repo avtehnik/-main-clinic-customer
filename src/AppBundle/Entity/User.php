@@ -18,6 +18,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 abstract class User
 {
+
+    const TYPE_DOCTOR = 'doctor';
+    const TYPE_CLIENT = 'client';
+
+
     /**
      * @var int
      *

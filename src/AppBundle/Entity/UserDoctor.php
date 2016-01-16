@@ -13,8 +13,18 @@ use Doctrine\ORM\Mapping as ORM;
 class UserDoctor extends User implements \JsonSerializable
 {
 
-    function jsonSerialize()
+
+    public function getUserType()
     {
+        return self::TYPE_DOCTOR;
+
+    }
+
+
+    public function jsonSerialize()
+    {
+
+
         return [
             "id"          => $this->getId(),
             "fullName"    => $this->getFullName(),
