@@ -19,11 +19,12 @@ class DoctorApiController extends Controller
     /**
      * @Route("/offers")
      */
-    public function offersAction(Request $request, UserDoctor $doctor)
+    public function offersAction(Request $request)
     {
 
         $em       = $this->getDoctrine()->getManager();
         $offers = $em->getRepository('AppBundle:Offer')->findAll();
+
 
         return new JsonResponse($offers);
     }
