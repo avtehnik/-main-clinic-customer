@@ -87,7 +87,7 @@ class ClientApiController extends Controller
         }
 
         $em->persist($offer);
-        $em->flush($offer);
+        $em->flush();
 
         return new JsonResponse($offer);
     }

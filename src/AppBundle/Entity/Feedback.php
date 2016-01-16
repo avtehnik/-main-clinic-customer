@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="feedback")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FeedbackRepository")
  */
-class Feedback
+class Feedback implements \JsonSerializable
 {
     /**
      * @var int
@@ -27,7 +27,7 @@ class Feedback
      * @ORM\Column(name="comment", type="string", length=255)
      */
     private $comment;
- 
+
 
     /**
      * @var \DateTime
@@ -77,7 +77,6 @@ class Feedback
     {
         return $this->comment;
     }
-
 
 
     /**
@@ -144,7 +143,6 @@ class Feedback
     private $client;
 
 
-
     /**
      * Set doctor
      *
@@ -191,5 +189,20 @@ class Feedback
     public function getClient()
     {
         return $this->client;
+    }
+
+    function jsonSerialize()
+    {
+
+        return [
+            "id"      => $this->getId(),
+            "comment" => $this->getComment(),
+            "date" => $this->getCreated()->format(DATE_ATOM),
+            "updated" => $this->getUpdated()->format(DATE_ATOM),
+            "client"  => $this->getClient()->getId(),
+            "client"  => $this->getClient()->getFullName(),
+        ];
+
+
     }
 }
