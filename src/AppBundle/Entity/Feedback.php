@@ -27,20 +27,7 @@ class Feedback
      * @ORM\Column(name="comment", type="string", length=255)
      */
     private $comment;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="doctor", type="integer")
-     */
-    private $doctor;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="user", type="integer")
-     */
-    private $client;
+ 
 
     /**
      * @var \DateTime
@@ -91,53 +78,7 @@ class Feedback
         return $this->comment;
     }
 
-    /**
-     * Set doctor
-     *
-     * @param integer $doctor
-     *
-     * @return Feedback
-     */
-    public function setDoctor($doctor)
-    {
-        $this->doctor = $doctor;
 
-        return $this;
-    }
-
-    /**
-     * Get doctor
-     *
-     * @return int
-     */
-    public function getDoctor()
-    {
-        return $this->doctor;
-    }
-
-    /**
-     * Set user
-     *
-     * @param integer $client
-     *
-     * @return Feedback
-     */
-    public function setClient($client)
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return int
-     */
-    public function getClient()
-    {
-        return $this->client;
-    }
 
     /**
      * Set created
@@ -186,5 +127,69 @@ class Feedback
     {
         return $this->updated;
     }
-}
 
+
+    /**
+     * @var UserDoctor
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\UserDoctor", inversedBy="feedbacks")
+     */
+    private $doctor;
+
+    /**
+     * @var UserClient
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\UserClient", inversedBy="feedbacks")
+     */
+    private $client;
+
+
+
+    /**
+     * Set doctor
+     *
+     * @param \AppBundle\Entity\UserDoctor $doctor
+     *
+     * @return Feedback
+     */
+    public function setDoctor(\AppBundle\Entity\UserDoctor $doctor = null)
+    {
+        $this->doctor = $doctor;
+
+        return $this;
+    }
+
+    /**
+     * Get doctor
+     *
+     * @return \AppBundle\Entity\UserDoctor
+     */
+    public function getDoctor()
+    {
+        return $this->doctor;
+    }
+
+    /**
+     * Set client
+     *
+     * @param \AppBundle\Entity\UserClient $client
+     *
+     * @return Feedback
+     */
+    public function setClient(\AppBundle\Entity\UserClient $client = null)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \AppBundle\Entity\UserClient
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+}

@@ -124,5 +124,36 @@ class Service
     {
         return $this->duration;
     }
-}
 
+    /**
+     * @var Board
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Offer", inversedBy="services")
+     */
+    private $offer;
+
+
+    /**
+     * Set offer
+     *
+     * @param \AppBundle\Entity\Offer $offer
+     *
+     * @return Service
+     */
+    public function setOffer(\AppBundle\Entity\Offer $offer = null)
+    {
+        $this->offer = $offer;
+
+        return $this;
+    }
+
+    /**
+     * Get offer
+     *
+     * @return \AppBundle\Entity\Offer
+     */
+    public function getOffer()
+    {
+        return $this->offer;
+    }
+}

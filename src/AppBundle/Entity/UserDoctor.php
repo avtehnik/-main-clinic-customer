@@ -38,5 +38,93 @@ class UserDoctor extends User implements \JsonSerializable
     }
 
 
-}
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Offer", mappedBy="doctor", cascade={"remove","persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
+     */
+    private $offers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Feedback", mappedBy="doctor", cascade={"remove","persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
+     */
+    private $feedbacks;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->offers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->feedbacks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add offer
+     *
+     * @param \AppBundle\Entity\Offer $offer
+     *
+     * @return UserDoctor
+     */
+    public function addOffer(\AppBundle\Entity\Offer $offer)
+    {
+        $this->offers[] = $offer;
+
+        return $this;
+    }
+
+    /**
+     * Remove offer
+     *
+     * @param \AppBundle\Entity\Offer $offer
+     */
+    public function removeOffer(\AppBundle\Entity\Offer $offer)
+    {
+        $this->offers->removeElement($offer);
+    }
+
+    /**
+     * Get offers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOffers()
+    {
+        return $this->offers;
+    }
+
+    /**
+     * Add feedback
+     *
+     * @param \AppBundle\Entity\Feedback $feedback
+     *
+     * @return UserDoctor
+     */
+    public function addFeedback(\AppBundle\Entity\Feedback $feedback)
+    {
+        $this->feedbacks[] = $feedback;
+
+        return $this;
+    }
+
+    /**
+     * Remove feedback
+     *
+     * @param \AppBundle\Entity\Feedback $feedback
+     */
+    public function removeFeedback(\AppBundle\Entity\Feedback $feedback)
+    {
+        $this->feedbacks->removeElement($feedback);
+    }
+
+    /**
+     * Get feedbacks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFeedbacks()
+    {
+        return $this->feedbacks;
+    }
+}
