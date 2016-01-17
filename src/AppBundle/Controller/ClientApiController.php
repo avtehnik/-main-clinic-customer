@@ -93,4 +93,64 @@ class ClientApiController extends Controller
     }
 
 
+    /**
+     * @Route("/registerUpdate")
+     */
+    public function registerUpdateAction(Request $request)
+    {
+        $em     = $this->getDoctrine()->getManager();
+        $id     = $request->request->get('id');
+        $client = null;
+        if ($id) {
+            $client = $em->getRepository('AppBundle:UserClient')->find($id);
+        }
+
+        if ( ! $client) {
+            $client = $em->getRepository('AppBundle:UserClient')->findOneBy(['phone' => $request->request->get('phone')]);
+            if ( ! $client) {
+                $client = new UserClient();
+                $client->setPhone($request->request->get('phone'));
+                $client->getUserType(UserClient::TYPE_CLIENT);
+                $client->setFullName($request->request->get('fullName'));
+
+            }
+        }
+
+        $client->setFullName($request->request->get('name'));
+        $client->setAge($request->request->get('age'));
+        $client->setGender($request->request->get('gender'));
+        $client->setAddress($request->request->get('address'));
+        $client->setDescription($request->request->get('description'));
+        $em->persist($client);
+        $em->flush();
+
+        return new JsonResponse($client);
+    }
+
+
+    /**
+     * @Route("/login")
+     */
+    public function loginAction(Request $request)
+    {
+        $em     = $this->getDoctrine()->getManager();
+        $id     = $request->request->get('id');
+        $client = null;
+
+        $client = $em->getRepository('AppBundle:UserClient')->findOneBy(['phone' => $request->request->get('phone')]);
+        if ( ! $client) {
+            $client = new UserClient();
+            $client->setPhone($request->request->get('phone'));
+            $client->getUserType(UserClient::TYPE_CLIENT);
+            $client->setFullName($request->request->get('fullName'));
+
+            $em->persist($client);
+            $em->flush();
+        }
+
+
+        return new JsonResponse($client);
+    }
+
+
 }
